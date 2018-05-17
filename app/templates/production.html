@@ -1189,22 +1189,24 @@
                     </div>
 
                     <ul class="creator-list">
+                        {% for creator in article_list.creator_lists %}
                         <li>
-                            <a href="/u10259776?from=articleList" target="_black" class="head-wrap"
-                               data-userid="10259776">
+                            <a href="/u{{ creator.cid }}?from=articleList" target="_black" class="head-wrap"
+                               data-userid="{{ creator.cid }}">
                                 <img class="avator lazy-img"
-                                     _src="https://oss-xpc0.xpccdn.com/Upload/user/2018/05/125af5c991b6051.jpeg">
+                                     _src="{{ creator.composer.avatar }}">
                                 <span class="author-v blue-v"></span>
                             </a>
                             <div class="creator-info">
-                                <a class="name-wrap" href="/u10259776?from=articleList"><span
-                                        class="name fs_14 fw_600 c_b_3 line-hide-1">Shooting Gallery Asia</span></a>
-                                <span class="roles fs_12 fw_300 c_b_9">制作方</span>
+                                <a class="name-wrap" href="/u{{ creator.cid }}?from=articleList"><span
+                                        class="name fs_14 fw_600 c_b_3 line-hide-1">{{ creator.composer.name }}</span></a>
+                                <span class="roles fs_12 fw_300 c_b_9">{{ creator.roles }}</span>
                             </div>
                             <div class="follow-btn fs_12 c_w_f bg-red " data-userid="10259776"
                                  data-username="Shooting Gallery Asia">关注
                             </div>
                         </li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div id="user-team-add" class="user-team-add pr hidden">
@@ -2762,7 +2764,7 @@ z-index: 10000; white-space:nowrap;"></span>
 
         function ajaxComment(page) {
             _moreComment.html("<span class='common-ajax-loading'></span>")
-            $.get("/article/filmplay/ts-getCommentApi?id=" + articleid, {ajax: 1, page: page}, function (res) {
+            $.get("http://www.xinpianchang.com/article/filmplay/ts-getCommentApi?id=" + articleid, {ajax: 1, page: page}, function (res) {
 
                 if (res) {
                     $(".comment-list").removeClass("dn").append(res);
