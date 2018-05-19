@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -26,8 +25,7 @@ SECRET_KEY = 'k4n63$(zzg#8z^xe6ddjgv5*%3tofb$zz7!ub0c%q3x1ykw@6@'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
+INTERNAL_IPS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    # 注册插件
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +48,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # django_debug_toolbar
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'web.urls'
@@ -70,22 +72,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'web.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'USER':'root',
-        'PASSWORD':'123456',
-        'host':'127.0.0.1',
-        'port':'3306',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'host': '127.0.0.1',
+        'port': '3306',
         'NAME': 'xpcnew',
 
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -105,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -119,8 +118,20 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+# 更改debug_toolbar的JQ地址  国内被墙
+DEBUG_TOOLBAR_CONFIG = {
+        'JQUERY_URL': '//cdn.bootcss.com/jquery/2.1.4/jquery.min.js',
+        'SHOW_COLLAPSED': True,
+        'SHOW_TOOLBAR_CALLBACK': lambda x: True,
+    }
+# memcached 缓存相关配置
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}

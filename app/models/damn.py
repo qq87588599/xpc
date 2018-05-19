@@ -1,17 +1,15 @@
-import pickle
-
-from app.helpers.composer_helper import r
-
+import redis
+from django.core.cache import cache
+r = redis.Redis()
 
 class Model(object):
 
     @classmethod
     def get(cls, **kwargs):
         cache_key = '%s_%s' % (cls.__name__, next(iter(kwargs.values())))
-        obj = r.get(cache_key)
+        obj = cache.get(cache_key)
         if not obj:
             obj = cls.objects.get(**kwargs)
-            r.set(cache_key,pickle.dumps(obj))
-        else:
-            obj = pickle.loads(obj)
+            cache.set(cache_key,obj)
+
         return obj

@@ -1,9 +1,10 @@
+
 from django.db import models
 
+from app.models.damn import Model
 
 
-
-class Composer(models.Model):
+class Composer(models.Model, Model):
     cid = models.BigIntegerField(primary_key=True)
     banner = models.CharField(max_length=512)
     avatar = models.CharField(max_length=512)

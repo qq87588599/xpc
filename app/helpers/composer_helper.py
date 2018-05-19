@@ -1,5 +1,8 @@
 from app.models.Copyright import Copyright
 from app.models.Post import Post
+import redis
+
+r = redis.Redis()
 
 
 def get_posts(cid, num=0):
